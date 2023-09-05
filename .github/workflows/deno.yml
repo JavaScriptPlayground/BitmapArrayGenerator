@@ -27,11 +27,7 @@ jobs:
     env:
       deno-version: v1.x
 
-    steps:
-      - name: Get current date
-        id: date
-        run: echo "DATE=$(date +'%Y.%m.%d@%H-%M-%S')" >> $GITHUB_ENV
-      
+    steps:      
       - name: Setup Repository (${{github.event.repository.name}})
         uses: actions/checkout@v3
 
@@ -47,11 +43,11 @@ jobs:
         if: success() || failure()
         run: |
           mkdir reports
-          deno test -A --unstable --check --reload --doc --allow-none --junit-path="./reports/${{env.DATE}}-report.xml"
+          deno test -A --unstable --check --reload --doc --allow-none --junit-path="./report.xml"
       
-      - name: Report tests (${{env.DATE}}-report.xml)
+      - name: Report tests (report.xml)
         uses: dorny/test-reporter@v1
         with:
           name: Deno Test Report
-          path: ./reports/${{env.DATE}}-report.xml
+          path: ./report.xml
           reporter: jest-junit
