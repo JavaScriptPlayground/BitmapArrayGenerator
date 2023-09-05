@@ -11,6 +11,9 @@ on:
         default: './src/client/'
         type: string
 
+permissions:
+  checks: write
+
 jobs:
   test:
     name: Test
@@ -32,13 +35,12 @@ jobs:
       
       - name: Run tests
         if: success() || failure()
-        run: |
-          mkdir reports
-          deno test -A --unstable --check --reload --doc --allow-none --junit-path="./report.xml"
-      
-      - name: Report tests (report.xml)
-        uses: dorny/test-reporter@v1
+        run: deno test -A --unstable --check --reload --doc --allow-none --junit-path="./report.xml"
+                         
+      - name: JUnit Report Action      
+        uses: mikepenz/action-junit-report@v3.8.0
         with:
-          name: Deno Test Report
-          path: ./report.xml
-          reporter: jest-junit
+          report_paths: 'report.xml'
+
+
+          
