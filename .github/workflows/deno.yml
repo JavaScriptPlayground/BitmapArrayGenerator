@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deno Test
 
 on:
   push:
@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   test:
-    name: Deno Test
+    name: Test
     runs-on: ubuntu-latest
     env:
       deno-version: v1.x
